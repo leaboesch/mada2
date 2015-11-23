@@ -6,7 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Haeufigkeit {
 	public static void main(String[] args) {
@@ -21,10 +23,10 @@ public class Haeufigkeit {
 		
 		
 		String test = readFile("test.txt");
-		double[] d = wieHaeufig(test);
-		for (int i = 0; i < d.length; i++) {
-			if (d[i] != 0) {
-				System.out.println((char) i + ": " + d[i] +"%");
+		List<Buchstabe> buchstaben = wieHaeufig(test);
+		for (int i = 0; i < buchstaben.size(); i++) {
+			if (buchstaben.get(i).getProzent() != 0) {
+				System.out.println((char) i + ": " + buchstaben.get(i).getProzent() +"%");
 			}
 
 		}
@@ -53,7 +55,7 @@ public class Haeufigkeit {
 	 * @param text
 	 * @return 
 	 */
-	public static double[] wieHaeufig(String text) {
+	public static List<Buchstabe> wieHaeufig(String text) {
 		int[] p = new int[128];
 		for (int i = 0; i < p.length; i++) {
 			p[i] = 0;
@@ -61,12 +63,17 @@ public class Haeufigkeit {
 		for (int i = 0; i < text.length(); i++) {
 			p[text.charAt(i)]++;
 		}
-		double[] prozente = new double[128];
+		int[] prozente = new int[128];
 		for (int i = 0; i < p.length; i++) {
 			double d = ((double) p[i]) / text.length() * 100;
-			prozente[i] = Math.round(d*100)/100.0;
+			prozente[i] = (int)d;
 		}
-		return prozente;
+		
+		List<Buchstabe> pr = new ArrayList<Buchstabe>();
+		for (int i=0; i<prozente.length; i++){
+			pr.add(new Buchstabe(i, prozente[i]));
+		}
+		return pr;
 	}
 
 	/**
@@ -88,4 +95,6 @@ public class Haeufigkeit {
 		}
 		return fileContents;
 	}
+	
+	
 }
