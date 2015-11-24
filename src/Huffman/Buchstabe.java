@@ -5,16 +5,41 @@ import java.util.BitSet;
 public class Buchstabe {
 	 int ascii;
 	 int prozent;
-	 BitSet code;
+	 String code;
+	 String wort;
 	
 	public Buchstabe(int a, int p){
 		ascii = a;
 		prozent = p;
-		code = new BitSet();
+		code = "";
+		wort = "" +(char)a;
+	}
+	
+	public Buchstabe(String b, int p){
+		ascii = 300;
+		prozent = p;
+		code = "";		wort = b;		
 	}
 	
 	public int getProzent(){
 		return prozent;
 	}
 	
+	public String getWort(){
+		return wort;
+	}
+	
+	public String getCode(){
+		return code;
+	}
+	
+	public void addToCode(int i){
+		if (i==0){
+			code= "0" +code;
+		}
+		if (i==1){
+			code = "1"+code;
+		}
+	}
+
 }

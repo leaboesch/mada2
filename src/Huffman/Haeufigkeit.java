@@ -9,6 +9,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Haeufigkeit {
 	public static void main(String[] args) {
@@ -24,13 +25,15 @@ public class Haeufigkeit {
 		
 		String test = readFile("test.txt");
 		List<Buchstabe> buchstaben = wieHaeufig(test);
+		/*
 		for (int i = 0; i < buchstaben.size(); i++) {
 			if (buchstaben.get(i).getProzent() != 0) {
 				System.out.println((char) i + ": " + buchstaben.get(i).getProzent() +"%");
 			}
 
 		}
-		
+		*/
+		createCode(buchstaben);
 
 	}
 
@@ -94,6 +97,64 @@ public class Haeufigkeit {
 			System.out.println("Fehler beim Einlesen");
 		}
 		return fileContents;
+	}
+	
+	public static List<Buchstabe> createCode(List<Buchstabe> b){
+		
+		// Liste in temporäre Liste kopieren
+		List<Buchstabe> temp = new ArrayList<Buchstabe>();
+		for (Buchstabe l : b){
+			temp.add(l);
+		}
+		
+		// Nicht vorkommende Buchstaben rausfiltern
+		temp = temp.stream().filter(l -> l.getProzent()>0).collect(Collectors.toList());
+
+		
+		// Der Häufigkeit nach sortieren
+		/*temp
+        .stream()
+        .sorted((e1, e2) -> Integer.compare(e1.prozent,
+                e2.prozent)).forEach(e -> System.out.println(e.wort +": " +e.prozent));
+        		
+		*/
+		while (temp.size()>1){
+
+		// 2 am wenigsten häufige Elemente rausnehmen
+		Buchstabe b0 = temp.stream().min((a1,a2) -> a1.getProzent() - a2.getProzent()).get();
+		temp.remove(b0);
+		
+		for(Buchstabe bu : b){
+			if (b0.getWort().contains(bu.getWort())){
+			bu.addToCode(0);
+			}
+		}
+
+		Buchstabe b1 =  temp.stream().min((a1,a2) -> a1.getProzent() - a2.getProzent()).get();
+		temp.remove(b1);
+		for(Buchstabe bu : b){
+			if (b1.getWort().contains(bu.getWort())){
+			bu.addToCode(1);			
+			}
+		}
+
+		// neues Wort konstruieren und hinzufügen
+		String neuesWort = b0.wort +b1.wort;
+		int neueProzente = b0.prozent +b1.prozent;
+		Buchstabe neu = new Buchstabe(neuesWort, neueProzente);
+		temp.add(neu);
+		System.out.println("Neu: " +neu.wort +": " +neu.prozent);
+		
+		
+
+		}
+		
+		for (Buchstabe bu : b){
+			if (bu.getCode()!=""){
+			System.out.println(bu.getWort() +": " +bu.getCode());
+			}
+		}
+		return b;
 	}
 	
 	
