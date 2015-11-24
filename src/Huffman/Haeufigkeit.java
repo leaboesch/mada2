@@ -120,10 +120,9 @@ public class Haeufigkeit {
 		*/
 		while (temp.size()>1){
 
-		// 2 am wenigsten häufige Elemente rausnehmen
+		// 2 am wenigsten häufige Elemente rausnehmen und Code ergänzen
 		Buchstabe b0 = temp.stream().min((a1,a2) -> a1.getProzent() - a2.getProzent()).get();
-		temp.remove(b0);
-		
+		temp.remove(b0);		
 		for(Buchstabe bu : b){
 			if (b0.getWort().contains(bu.getWort())){
 			bu.addToCode(0);
@@ -149,6 +148,7 @@ public class Haeufigkeit {
 
 		}
 		
+		// alle Codes ausgeben
 		for (Buchstabe bu : b){
 			if (bu.getCode()!=""){
 			System.out.println(bu.getWort() +": " +bu.getCode());
