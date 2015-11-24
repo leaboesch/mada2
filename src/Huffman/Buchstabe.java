@@ -33,6 +33,10 @@ public class Buchstabe {
 		return code;
 	}
 	
+	public int getAscii(){
+		return ascii;
+	}
+	
 	public void addToCode(int i){
 		if (i==0){
 			code= "0" +code;

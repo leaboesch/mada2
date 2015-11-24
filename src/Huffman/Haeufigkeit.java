@@ -3,6 +3,7 @@ package Huffman;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
@@ -33,7 +34,8 @@ public class Haeufigkeit {
 
 		}
 		*/
-		createCode(buchstaben);
+		List<Buchstabe> mitCode = createCode(buchstaben);
+		writeCode(mitCode);
 
 	}
 
@@ -101,16 +103,17 @@ public class Haeufigkeit {
 	
 	public static List<Buchstabe> createCode(List<Buchstabe> b){
 		
-		// Liste in temporäre Liste kopieren
-		List<Buchstabe> temp = new ArrayList<Buchstabe>();
-		for (Buchstabe l : b){
-			temp.add(l);
-		}
+		
 		
 		// Nicht vorkommende Buchstaben rausfiltern
-		temp = temp.stream().filter(l -> l.getProzent()>0).collect(Collectors.toList());
+		b = b.stream().filter(l -> l.getProzent()>0).collect(Collectors.toList());
 
 		
+		// Liste in temporäre Liste kopieren
+				List<Buchstabe> temp = new ArrayList<Buchstabe>();
+				for (Buchstabe l : b){
+					temp.add(l);
+				}
 		// Der Häufigkeit nach sortieren
 		/*temp
         .stream()
@@ -158,4 +161,35 @@ public class Haeufigkeit {
 	}
 	
 	
-}
+	// Schreibt die Codierungstabelle
+	public static void writeCode(List<Buchstabe> b){
+			
+			File dec_tab = new File("dec_tab.txt");
+			try {
+				dec_tab.createNewFile();
+			} catch (IOException e) {
+				System.out.println("Fehler beim Erstellen der Datei");
+			}
+
+			FileWriter f1;
+			try {
+				f1 = new FileWriter("dec_tab.txt");
+				for (Buchstabe bu : b){
+					f1.write(String.valueOf(bu.getAscii()));
+					f1.write(":");
+					f1.write(bu.getCode());
+					f1.write("-");
+				}
+								
+				f1.close();
+			} catch (IOException e) {
+				System.out.println("Fehler beim Erstellen der Datei");
+			}
+		}
+		
+		
+		
+	}
+	
+	
+
