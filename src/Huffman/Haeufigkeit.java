@@ -212,7 +212,7 @@ public class Haeufigkeit {
 		System.out.println(bitstring);
 
 		/*
-		 * FUNKTIONIERT NOCH NICHT
+		 * KÖNNTE FUNKTIONIEREN, KANN ES ABER NOCH NICHT TESTEN
 		 * 
 		 * 7. Aus diesem erweiterten Bitstring soll ein byte-Array erstellt
 		 * werden, in dem je 8 aufeinanderfolgende Zeichen zu je einem byte
@@ -226,7 +226,8 @@ public class Haeufigkeit {
 		for (int j=0; j<length; j++){
 			String temp = bitstring.substring(j*8, j*8+8);
 			// string in byte umwandeln
-			System.out.println(temp);
+			int intwert = Integer.valueOf(temp, 2);			
+			byteArray[j] = (byte)intwert;			
 		}
 		
 		
