@@ -253,24 +253,35 @@ public class Haeufigkeit {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
 
         // Einlesen der Kodierungstabelle
-        public static dateiEinlesen(String filename) {
+
         try {
             ArrayList<String> letter = new ArrayList<String>();
             String zeile;
-        
+
             BufferedReader buff = new BufferedReader(new FileReader("dec_tab.txt"));
-            while ((zeile = buff.readLine()) != null)
-                //splitten & abspeichern in ArrayList
-                    {
-            
+            while ((zeile = buff.readLine()) != null) {
+                buff.split(":");
+                buff.split("-");
+                letter.add(zeile);
+
+            }
             buff.close();
-        }
-            } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
 
         }
+
+        // byte-Array in einen Bitstring umwandeln, von dem dann die letzte 1 und alle
+        // folgenden Nullen abgeschnitten werden
+
+        String bitString = new String(byteArray);
+        for (int j = 0; j < bitString.length(); j++) {
+            if (byteArray[j] == null && byteArray[j-1] == 1) {
+                
+
+            }
+        }
     }
-}}
+}
