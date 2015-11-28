@@ -1,7 +1,5 @@
 package Huffman;
 
-import java.util.BitSet;
-
 public class Buchstabe {
 	 int ascii;
 	 int prozent;
