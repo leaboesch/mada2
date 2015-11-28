@@ -19,17 +19,17 @@ import java.util.stream.Collectors;
 public class Haeufigkeit {
 	public static void main(String[] args) {
 
+		/*
 		int[] alleZeichen = new int[256]; // Array f�r ASCII-Code
 		int[] alleZeichenSortiert = bubblesort(alleZeichen);
 
 		for (int i = 0; i < alleZeichenSortiert.length; i++) {
 			System.out.print(alleZeichenSortiert[i] + ", ");
 		}
-
+		 */
 		String test = readFile("test.txt");
 		List<Buchstabe> buchstaben = wieHaeufig(test);
 		List<Buchstabe> mitCode = createCode(buchstaben);
-		createCode(mitCode);
 		codieren(test, mitCode);
 	}
 
@@ -65,7 +65,6 @@ public class Haeufigkeit {
 		} catch (IOException e) {
 			System.out.println("Fehler beim Einlesen");
 		}
-
 		return fileContents;
 	}
 
@@ -106,7 +105,7 @@ public class Haeufigkeit {
 
 		// Nicht vorkommende Buchstaben rausfiltern
 		b = b.stream().filter(l -> l.getProzent() > 0).collect(Collectors.toList());
-
+		
 		// Liste in temporäre Liste kopieren
 		List<Buchstabe> temp = new ArrayList<Buchstabe>();
 		for (Buchstabe l : b) {
@@ -138,7 +137,6 @@ public class Haeufigkeit {
 			Buchstabe neu = new Buchstabe(neuesWort, neueProzente);
 			temp.add(neu);
 			System.out.println("Neu: " + neu.wort + ": " + neu.prozent);
-
 		}
 
 		// alle Codes ausgeben
@@ -187,19 +185,23 @@ public class Haeufigkeit {
          * 5. Die eingelesene Textdatei soll entsprechend der Huffman-Kodierung in einen Bitstring
          * kodiert werden.
          */
+		System.out.println(text);
         int i = 0;
         String bitstring = "";
         while (i < text.length()) {
             int j = 0;
-            while ((char) b.get(j).getAscii() != text.charAt(i)) {
+            while (text.charAt(i) != (char) b.get(j).getAscii()) {
                 j++;
             }
+            System.out.println("before: " +bitstring);
             bitstring = bitstring + b.get(j).getCode();
+            System.out.println("after: " +bitstring);
+
             i++;
         }
 
         /*
-         * 6. An diesen Bitstring soll eine 1 und anschliessend so viele Nullen dran gehangt
+         * 6. An diesen Bitstring soll eine 1 und anschliessend so viele Nullen dran gehängt
          * werden, bis der Bitstring eine Lange hat, die ein Vielfaches von 8 ist.
          */
         System.out.println(bitstring);
@@ -209,9 +211,9 @@ public class Haeufigkeit {
         }
         System.out.println(bitstring);
 
-        /*
-         * KÖNNTE FUNKTIONIEREN, KANN ES ABER NOCH NICHT TESTEN
-         * 
+        
+        
+        /* 
          * 7. Aus diesem erweiterten Bitstring soll ein byte-Array erstellt werden, in dem je 8
          * aufeinanderfolgende Zeichen zu je einem byte zusammengefasst werden.
          */
@@ -219,12 +221,14 @@ public class Haeufigkeit {
         int length = bitstring.length() / 8;
         byte[] byteArray = new byte[length];
 
+       
         for (int j = 0; j < length; j++) {
-            String temp = bitstring.substring(j * 8, j * 8 + 8);
+        	String temp = bitstring.substring(j * 8, j * 8 + 8);
             // string in byte umwandeln
             int intwert = Integer.valueOf(temp, 2);
             byteArray[j] = (byte) intwert;
         }
+        
 
         /*
          * 8. Dieses byte-Array soll in einer externen Datei output.dat gespeichert werden.
@@ -243,49 +247,7 @@ public class Haeufigkeit {
             System.out.println("Fehler beim Schreiben");
         }
 
-        /*
-         * 9. Es soll also aus externen Dateien die Kodierungstabelle und das byte-Array eingelesen
-         * werden.
-         */
-        // Einlesen des Byte-Arrays
-        byte[] bFile = new byte[(int) codierterText.length()];
-        FileInputStream fis;
-        try {
-            fis = new FileInputStream(codierterText);
-            fis.read(bFile);
-            fis.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Einlesen der Kodierungstabelle
-
-            String fileFrom = "dec_tab.txt";
-            BufferedReader in = null;
-    		String line;
-    		String res = "";
-    		try {
-    			in = new BufferedReader(new FileReader(fileFrom));
-    			while ((line = in.readLine()) != null)
-    				res += line;
-    		} catch (IOException e) {
-    			e.printStackTrace();
-    		}
-
-    		
-            ArrayList<Buchstabe> codierungstabelle = new ArrayList<Buchstabe>();
-            
-
-        // byte-Array in einen Bitstring umwandeln, von dem dann die letzte 1 und alle
-        // folgenden Nullen abgeschnitten werden
-
-        String bitString = new String(byteArray);
-        for (int j = 0; j < bitString.length(); j++) {
-            if (byteArray[j] == 0 && byteArray[j-1] == 1) {
-                
-
-            }
-        }
+        
         }
 	}
 

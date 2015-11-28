@@ -14,8 +14,8 @@ public class Decodierung {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		String codedMessage = (readCodedMessage("output-mada.dat"));
-		List<Buchstabe> dectab = readDecTab("dec_tab-mada.txt");
+		String codedMessage = (readCodedMessage("output.dat"));
+		List<Buchstabe> dectab = readDecTab("dec_tab.txt");
 		decompress(codedMessage, dectab);
 	}
 
@@ -43,9 +43,8 @@ public class Decodierung {
 
 		for (byte b : bFile) {
 
-			String s = Integer.toBinaryString(256 + (int) b);
-
-			s.substring(s.length() -8);			
+		    String s = Integer.toBinaryString(b & 255 | 256).substring(1);
+			
 			a = a + s;
 		}
 		System.out.println(a.length() + ": " + a);
@@ -115,8 +114,11 @@ public class Decodierung {
 				} else {
 					codedMessage = "";
 				}
-				System.out.println(ascii + ": " + code);
-				System.out.println(codedMessage);
+				if (codedMessage.length()<20){
+					System.out.println(ascii + ": " + code);
+
+					System.out.println(codedMessage);
+				}
 				fw.write(ascii);
 			}
 			fw.close();
