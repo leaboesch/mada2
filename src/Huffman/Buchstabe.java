@@ -21,6 +21,17 @@ public class Buchstabe {
 		code = "";		wort = b;		
 	}
 	
+	public Buchstabe(){		
+	}
+	
+	public void setAscii(int ascii){
+		this.ascii = ascii;
+	}
+	
+	public void setCode(String code){
+		this.code = code;
+	}
+	
 	public int getProzent(){
 		return prozent;
 	}
