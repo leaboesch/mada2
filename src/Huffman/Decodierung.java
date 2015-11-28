@@ -38,24 +38,21 @@ public class Decodierung {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(bFile.length);
 		String a = "";
 
 		for (byte b : bFile) {
 
-		    String s = Integer.toBinaryString(b & 255 | 256).substring(1);
-			
+		    String s = Integer.toBinaryString(b & 255 | 256).substring(1);			
 			a = a + s;
 		}
-		System.out.println(a.length() + ": " + a);
 		int indexOfLast1 = a.lastIndexOf("1");
 		a = a.substring(0, indexOfLast1);
-		System.out.println(a.length() + ": " + a);
 		return a;
 	}
 
-	// Einlesen der Kodierungstabelle
+	
 
+	// Einlesen der Kodierungstabelle
 	public static List<Buchstabe> readDecTab(String filename) {
 		BufferedReader in = null;
 		String line;
@@ -79,10 +76,6 @@ public class Decodierung {
 			bu.setAscii(ascii);
 			bu.setCode(code);
 			codierungstabelle.add(bu);
-		}
-
-		for (Buchstabe b : codierungstabelle) {
-			System.out.println(b.getAscii() + ": " + b.getCode());
 		}
 
 		return codierungstabelle;
@@ -113,12 +106,7 @@ public class Decodierung {
 					codedMessage = codedMessage.substring(code.length(), codedMessage.length());
 				} else {
 					codedMessage = "";
-				}
-				if (codedMessage.length()<20){
-					System.out.println(ascii + ": " + code);
-
-					System.out.println(codedMessage);
-				}
+				}				
 				fw.write(ascii);
 			}
 			fw.close();

@@ -1,52 +1,25 @@
 package Huffman;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Haeufigkeit {
+public class Codierung {
 	public static void main(String[] args) {
 
-		/*
-		int[] alleZeichen = new int[256]; // Array f�r ASCII-Code
-		int[] alleZeichenSortiert = bubblesort(alleZeichen);
-
-		for (int i = 0; i < alleZeichenSortiert.length; i++) {
-			System.out.print(alleZeichenSortiert[i] + ", ");
-		}
-		 */
+	
 		String test = readFile("test.txt");
 		List<Buchstabe> buchstaben = wieHaeufig(test);
 		List<Buchstabe> mitCode = createCode(buchstaben);
+		writeDecTab(mitCode);
 		codieren(test, mitCode);
 	}
 
-	public static int[] bubblesort(int[] alleZeichen) {
-		int temp;
-		for (int i = 1; i < alleZeichen.length; i++) {
-			for (int j = 0; j < alleZeichen.length - i; j++) {
-				if (alleZeichen[j] > alleZeichen[j + 1]) {
-					temp = alleZeichen[j];
-					alleZeichen[j] = alleZeichen[j + 1];
-					alleZeichen[j + 1] = temp;
-				}
-
-			}
-		}
-		return alleZeichen;
-	}
 
 	public static String readFile(String filename) {
 
@@ -136,19 +109,12 @@ public class Haeufigkeit {
 			int neueProzente = b0.prozent + b1.prozent;
 			Buchstabe neu = new Buchstabe(neuesWort, neueProzente);
 			temp.add(neu);
-			System.out.println("Neu: " + neu.wort + ": " + neu.prozent);
 		}
-
-		// alle Codes ausgeben
-		for (Buchstabe bu : b) {
-			if (bu.getCode() != "") {
-				System.out.println(bu.getWort() + ": " + bu.getCode());
-			}
-		}
+		
 		return b;
 	}
 
-	public static void writeCode(List<Buchstabe> b) {
+	public static void writeDecTab(List<Buchstabe> b) {
 
 		/*
 		 * 4. Die Huffman-Kodierungstabelle soll in einer externen Datei dec
@@ -185,7 +151,6 @@ public class Haeufigkeit {
          * 5. Die eingelesene Textdatei soll entsprechend der Huffman-Kodierung in einen Bitstring
          * kodiert werden.
          */
-		System.out.println(text);
         int i = 0;
         String bitstring = "";
         while (i < text.length()) {
@@ -193,10 +158,7 @@ public class Haeufigkeit {
             while (text.charAt(i) != (char) b.get(j).getAscii()) {
                 j++;
             }
-            System.out.println("before: " +bitstring);
             bitstring = bitstring + b.get(j).getCode();
-            System.out.println("after: " +bitstring);
-
             i++;
         }
 
@@ -204,13 +166,10 @@ public class Haeufigkeit {
          * 6. An diesen Bitstring soll eine 1 und anschliessend so viele Nullen dran gehängt
          * werden, bis der Bitstring eine Lange hat, die ein Vielfaches von 8 ist.
          */
-        System.out.println(bitstring);
         bitstring = bitstring + "1";
         while (bitstring.length() % 8 != 0) {
             bitstring = bitstring + "0";
         }
-        System.out.println(bitstring);
-
         
         
         /* 
