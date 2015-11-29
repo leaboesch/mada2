@@ -49,6 +49,8 @@ public class Codierung {
 		 * in der Textdatei vorkommt. (Hinweis: (int) c macht aus einem
 		 * character c den entsprechenden ASCII-Wert).
 		 */
+		
+		int laenge = text.length();
 		int[] p = new int[128];
 		for (int i = 0; i < p.length; i++) {
 			p[i] = 0;
@@ -58,7 +60,7 @@ public class Codierung {
 		}
 		int[] prozente = new int[128];
 		for (int i = 0; i < p.length; i++) {
-			double d = ((double) p[i]) / text.length() * 100;
+			double d = ((double) p[i]) / text.length() * 100*laenge;
 			prozente[i] = (int) d;
 		}
 
@@ -75,10 +77,14 @@ public class Codierung {
 		 * 3. Aus dieser Häufigkeitstabelle soll eine Huffman-Kodierung fur
 		 * die Zeichen konstruiert werden, die in der Datei vorkommen.
 		 */
-
+		System.out.println(b.size());
 		// Nicht vorkommende Buchstaben rausfiltern
 		b = b.stream().filter(l -> l.getProzent() > 0).collect(Collectors.toList());
-		
+		for (Buchstabe bu : b){
+			System.out.println(bu.getAscii() +": " +bu.getProzent());
+
+		}
+		System.out.println(b.size());
 		// Liste in temporäre Liste kopieren
 		List<Buchstabe> temp = new ArrayList<Buchstabe>();
 		for (Buchstabe l : b) {
@@ -111,6 +117,10 @@ public class Codierung {
 			temp.add(neu);
 		}
 		
+		for (Buchstabe bu : b){
+			System.out.println(bu.getWort() +": " +bu.getCode());
+		}
+		System.out.println(b.size() +" Buchstaben");
 		return b;
 	}
 
