@@ -12,14 +12,12 @@ import java.util.stream.Collectors;
 public class Codierung {
 	public static void main(String[] args) {
 
-	
 		String test = readFile("test.txt");
 		List<Buchstabe> buchstaben = wieHaeufig(test);
 		List<Buchstabe> mitCode = createCode(buchstaben);
 		writeDecTab(mitCode);
 		codieren(test, mitCode);
 	}
-
 
 	public static String readFile(String filename) {
 
@@ -30,7 +28,7 @@ public class Codierung {
 		try {
 			FileReader fileReader = new FileReader(filename);
 			int i;
-			while ((i = fileReader.read()) != -1) {
+			while ((i = fileReader.read()) != -1) {				
 				char ch = (char) i;
 				fileContents = fileContents + ch;
 			}
@@ -38,6 +36,7 @@ public class Codierung {
 		} catch (IOException e) {
 			System.out.println("Fehler beim Einlesen");
 		}
+
 		return fileContents;
 	}
 
@@ -49,26 +48,34 @@ public class Codierung {
 		 * in der Textdatei vorkommt. (Hinweis: (int) c macht aus einem
 		 * character c den entsprechenden ASCII-Wert).
 		 */
-		
-		int laenge = text.length();
-		int[] p = new int[128];
-		for (int i = 0; i < p.length; i++) {
-			p[i] = 0;
-		}
-		for (int i = 0; i < text.length(); i++) {
-			p[text.charAt(i)]++;
-		}
-		int[] prozente = new int[128];
-		for (int i = 0; i < p.length; i++) {
-			double d = ((double) p[i]) / text.length() * 100*laenge;
-			prozente[i] = (int) d;
-		}
 
-		List<Buchstabe> pr = new ArrayList<Buchstabe>();
-		for (int i = 0; i < prozente.length; i++) {
-			pr.add(new Buchstabe(i, prozente[i]));
-		}
-		return pr;
+
+			int laenge = text.length();
+			int[] p = new int[128];
+			for (int i = 0; i < p.length; i++) {
+				p[i] = 0;
+			}
+			try{
+			for (int i = 0; i < text.length(); i++) {
+				p[text.charAt(i)]++;
+			}
+			}catch(ArrayIndexOutOfBoundsException e){
+				System.out.println("Text enthält ungültige Zeichen");
+				System.exit(0);
+			}
+
+			int[] prozente = new int[128];
+			for (int i = 0; i < p.length; i++) {
+				double d = ((double) p[i]) / text.length() * 100 * laenge;
+				prozente[i] = (int) d;
+			}
+
+			List<Buchstabe> pr = new ArrayList<Buchstabe>();
+			for (int i = 0; i < prozente.length; i++) {
+				pr.add(new Buchstabe(i, prozente[i]));
+			}
+			return pr;
+		
 	}
 
 	public static List<Buchstabe> createCode(List<Buchstabe> b) {
@@ -77,14 +84,10 @@ public class Codierung {
 		 * 3. Aus dieser Häufigkeitstabelle soll eine Huffman-Kodierung fur
 		 * die Zeichen konstruiert werden, die in der Datei vorkommen.
 		 */
-		System.out.println(b.size());
+
 		// Nicht vorkommende Buchstaben rausfiltern
 		b = b.stream().filter(l -> l.getProzent() > 0).collect(Collectors.toList());
-		for (Buchstabe bu : b){
-			System.out.println(bu.getAscii() +": " +bu.getProzent());
 
-		}
-		System.out.println(b.size());
 		// Liste in temporäre Liste kopieren
 		List<Buchstabe> temp = new ArrayList<Buchstabe>();
 		for (Buchstabe l : b) {
@@ -116,11 +119,7 @@ public class Codierung {
 			Buchstabe neu = new Buchstabe(neuesWort, neueProzente);
 			temp.add(neu);
 		}
-		
-		for (Buchstabe bu : b){
-			System.out.println(bu.getWort() +": " +bu.getCode());
-		}
-		System.out.println(b.size() +" Buchstaben");
+
 		return b;
 	}
 
@@ -157,67 +156,64 @@ public class Codierung {
 
 	public static void codieren(String text, List<Buchstabe> b) {
 
-        /*
-         * 5. Die eingelesene Textdatei soll entsprechend der Huffman-Kodierung in einen Bitstring
-         * kodiert werden.
-         */
-        int i = 0;
-        String bitstring = "";
-        while (i < text.length()) {
-            int j = 0;
-            while (text.charAt(i) != (char) b.get(j).getAscii()) {
-                j++;
-            }
-            bitstring = bitstring + b.get(j).getCode();
-            i++;
-        }
+		/*
+		 * 5. Die eingelesene Textdatei soll entsprechend der Huffman-Kodierung
+		 * in einen Bitstring kodiert werden.
+		 */
+		int i = 0;
+		String bitstring = "";
+		while (i < text.length()) {
+			int j = 0;
+			while (text.charAt(i) != (char) b.get(j).getAscii()) {
+				j++;
+			}
+			bitstring = bitstring + b.get(j).getCode();
+			i++;
+		}
 
-        /*
-         * 6. An diesen Bitstring soll eine 1 und anschliessend so viele Nullen dran gehängt
-         * werden, bis der Bitstring eine Lange hat, die ein Vielfaches von 8 ist.
-         */
-        bitstring = bitstring + "1";
-        while (bitstring.length() % 8 != 0) {
-            bitstring = bitstring + "0";
-        }
-        
-        
-        /* 
-         * 7. Aus diesem erweiterten Bitstring soll ein byte-Array erstellt werden, in dem je 8
-         * aufeinanderfolgende Zeichen zu je einem byte zusammengefasst werden.
-         */
+		/*
+		 * 6. An diesen Bitstring soll eine 1 und anschliessend so viele Nullen
+		 * dran gehängt werden, bis der Bitstring eine Lange hat, die ein
+		 * Vielfaches von 8 ist.
+		 */
+		bitstring = bitstring + "1";
+		while (bitstring.length() % 8 != 0) {
+			bitstring = bitstring + "0";
+		}
 
-        int length = bitstring.length() / 8;
-        byte[] byteArray = new byte[length];
+		/*
+		 * 7. Aus diesem erweiterten Bitstring soll ein byte-Array erstellt
+		 * werden, in dem je 8 aufeinanderfolgende Zeichen zu je einem byte
+		 * zusammengefasst werden.
+		 */
 
-       
-        for (int j = 0; j < length; j++) {
-        	String temp = bitstring.substring(j * 8, j * 8 + 8);
-            // string in byte umwandeln
-            int intwert = Integer.valueOf(temp, 2);
-            byteArray[j] = (byte) intwert;
-        }
-        
+		int length = bitstring.length() / 8;
+		byte[] byteArray = new byte[length];
 
-        /*
-         * 8. Dieses byte-Array soll in einer externen Datei output.dat gespeichert werden.
-         */
-        File codierterText = new File("output.dat");
-        try {
-            codierterText.createNewFile();
-        } catch (IOException ee) {
-            System.out.println("Fehler beim Erstellen der Datei");
-        }
-        try {
-            FileOutputStream fos = new FileOutputStream(codierterText);
-            fos.write(byteArray);
-            fos.close();
-        } catch (IOException e) {
-            System.out.println("Fehler beim Schreiben");
-        }
+		for (int j = 0; j < length; j++) {
+			String temp = bitstring.substring(j * 8, j * 8 + 8);
+			// string in byte umwandeln
+			int intwert = Integer.valueOf(temp, 2);
+			byteArray[j] = (byte) intwert;
+		}
 
-        
-        }
+		/*
+		 * 8. Dieses byte-Array soll in einer externen Datei output.dat
+		 * gespeichert werden.
+		 */
+		File codierterText = new File("output.dat");
+		try {
+			codierterText.createNewFile();
+		} catch (IOException ee) {
+			System.out.println("Fehler beim Erstellen der Datei");
+		}
+		try {
+			FileOutputStream fos = new FileOutputStream(codierterText);
+			fos.write(byteArray);
+			fos.close();
+		} catch (IOException e) {
+			System.out.println("Fehler beim Schreiben");
+		}
+
 	}
-
-
+}
