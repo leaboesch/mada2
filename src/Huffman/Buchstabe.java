@@ -1,5 +1,5 @@
 package Huffman;
-
+//Lea Boesch und Irina Terribilini 3iCbb
 public class Buchstabe {
 	 int ascii;
 	 int prozent;

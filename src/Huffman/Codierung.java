@@ -1,5 +1,5 @@
 package Huffman;
-
+//Lea Boesch und Irina Terribilini 3iCbb
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -131,7 +131,7 @@ public class Codierung {
 		 * Zeichen1-ASCII-Code von Zeichen2:Code von Zeichen2-. . . gespeichert
 		 * werden.
 		 */
-		File dec_tab = new File("dec_tab.txt");
+		File dec_tab = new File("dec_tab-mada.txt");
 		try {
 			dec_tab.createNewFile();
 		} catch (IOException e) {
@@ -140,7 +140,7 @@ public class Codierung {
 
 		FileWriter f1;
 		try {
-			f1 = new FileWriter("dec_tab.txt");
+			f1 = new FileWriter("dec_tab-mada.txt");
 			for (Buchstabe bu : b) {
 				f1.write(String.valueOf(bu.getAscii()));
 				f1.write(":");

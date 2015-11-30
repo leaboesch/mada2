@@ -1,5 +1,5 @@
 package Huffman;
-
+//Lea Boesch und Irina Terribilini 3iCbb
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,8 +14,8 @@ public class Decodierung {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		String codedMessage = (readCodedMessage("output.dat"));
-		List<Buchstabe> dectab = readDecTab("dec_tab.txt");
+		String codedMessage = (readCodedMessage("output-mada.dat"));
+		List<Buchstabe> dectab = readDecTab("dec_tab-mada.txt");
 		decompress(codedMessage, dectab);
 	}
 
