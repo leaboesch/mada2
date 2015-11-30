@@ -15,7 +15,7 @@ public class Decodierung {
 		// TODO Auto-generated method stub
 
 		String codedMessage = (readCodedMessage("output.dat"));
-		List<Buchstabe> dectab = readDecTab("dec_tab.txt");
+		List<Buchstabe> dectab = readDecTab("dec_tab-mada.txt");
 		decompress(codedMessage, dectab);
 	}
 
@@ -36,8 +36,9 @@ public class Decodierung {
 			fis.read(bFile);
 			fis.close();
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			System.out.println(filename +" kann nicht gefunden oder gelesen werden");
+			System.exit(0);
+}
 		
 		String a = "";
 
@@ -67,8 +68,9 @@ public class Decodierung {
 			while ((line = in.readLine()) != null)
 				res += line;
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			System.out.println(filename +" kann nicht gefunden oder gelesen werden");
+			System.exit(0);
+}
 		
 		if (res == ""){
 			System.out.println(filename +" ist leer");
