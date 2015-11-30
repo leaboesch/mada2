@@ -36,7 +36,11 @@ public class Codierung {
 		} catch (IOException e) {
 			System.out.println("Fehler beim Einlesen");
 		}
-
+		if (fileContents == ""){
+			System.out.println("Das File ist leer");
+			
+			System.exit(0);
+		}
 		return fileContents;
 	}
 
@@ -63,6 +67,8 @@ public class Codierung {
 				System.out.println("Text enthält ungültige Zeichen");
 				System.exit(0);
 			}
+			
+		
 
 			int[] prozente = new int[128];
 			for (int i = 0; i < p.length; i++) {

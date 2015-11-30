@@ -14,8 +14,8 @@ public class Decodierung {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		String codedMessage = (readCodedMessage("output-mada.dat"));
-		List<Buchstabe> dectab = readDecTab("dec_tab-mada.txt");
+		String codedMessage = (readCodedMessage("output.dat"));
+		List<Buchstabe> dectab = readDecTab("dec_tab.txt");
 		decompress(codedMessage, dectab);
 	}
 
@@ -38,6 +38,7 @@ public class Decodierung {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		String a = "";
 
 		for (byte b : bFile) {
