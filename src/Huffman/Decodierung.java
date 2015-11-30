@@ -46,6 +46,10 @@ public class Decodierung {
 		    String s = Integer.toBinaryString(b & 255 | 256).substring(1);			
 			a = a + s;
 		}
+		if (a == ""){
+			System.out.println(filename +" ist leer");
+			System.exit(0);
+		}
 		int indexOfLast1 = a.lastIndexOf("1");
 		a = a.substring(0, indexOfLast1);
 		return a;
@@ -65,7 +69,11 @@ public class Decodierung {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
+		if (res == ""){
+			System.out.println(filename +" ist leer");
+			System.exit(0);
+		}
 		String[] codes = res.split("-");
 		ArrayList<Buchstabe> codierungstabelle = new ArrayList<Buchstabe>();
 
